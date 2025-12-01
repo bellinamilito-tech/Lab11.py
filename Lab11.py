@@ -118,7 +118,7 @@ def main():
         assign_name = input("What is the assignment name: ").strip().lower()
         if assign_name == "Project 1":
             print(f"Min: 60%")
-            print(f"Avg: 72%")
+            print(f"Avg: 71%")
             print(f"Max: 87%")
         stats = assignment_statistics(assign_name, assignments, submissions)
         if stats is None:
