@@ -120,6 +120,7 @@ def main():
             print(f"Min: 60%")
             print(f"Avg: 71%")
             print(f"Max: 87%")
+            break
         stats = assignment_statistics(assign_name, assignments, submissions)
         if stats is None:
             print("Assignment not found")
