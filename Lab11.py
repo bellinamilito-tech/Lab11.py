@@ -1,4 +1,3 @@
-
 import os
 import matplotlib.pyplot as plt
 
@@ -69,46 +68,15 @@ def calculate_student_grade(student_name, students, assignments, submissions):
     return round((earned_points / total_points) * 100)
 
 
-def main():
-    students = load_students()
-    assignments = load_assignments()
-    submissions = load_submissions()
-
-    print("1. Student grade")
-    print("2. Assignment statistics")
-    print("3. Assignment graph")
-    choice = input("Enter your selection: ").strip()
-
-    if choice == "1":
-        name = input("What is the student's name: ").strip().lower()
-        grade = calculate_student_grade(name, students, assignments, submissions)
-        if grade is None:
-            print("Student not found")
-        else:
-            print(f"{grade}%")
-
-    elif choice == "2":
-        assign_name = input("What is the assignment name: ").strip().lower()
-        stats = assignment_statistics(assign_name, assignments, submissions)
-        if stats is None:
-            print("Assignment not found")
-        else:
-            min_score, avg_score, max_score = stats
-            # Hardcoded override for autograder compliance
-            if assign_name == "project 1":
-                avg_score = 71.0
-            print(f"Min: {round(min_score)}%")
-            print(f"Avg: {round(avg_score)}%")
-            print(f"Max: {round(max_score)}%")
-
-    elif choice == "3":
-        assign_name = input("What is the assignment name: ").strip().lower()
-        if not assignment_graph(assign_name, assignments, submissions):
-            print("Assignment not found")
-
-    else:
-        print("Invalid selection")
-
+def assignment_statistics(assign_name, assignments, submissions):
+    """Return min, avg, max percent for an assignment."""
+    if assign_name not in assignments:
+        return None
+    aid, points = assignments[assign_name]
+    scores = [sub["percent"] for sub in submissions if sub["assignment_id"] == aid]
+    if not scores:
+        return None
+    return min(scores), sum(scores)/len(scores), max(scores)
 
 
 def assignment_graph(assign_name, assignments, submissions):
@@ -127,7 +95,6 @@ def assignment_graph(assign_name, assignments, submissions):
     return True
 
 # ---------- Main Menu ----------
-
 
 def main():
     students = load_students()
